@@ -1,15 +1,13 @@
 public class Foo {
     public static void main(String[] args) {
-        var price = 200;
-        var name = "Foo";
-        var pi = 3.14;
-        System.out.println("price = " + (price+1000) + "\n");
-        System.out.println("name = " + name);
-        System.out.println("pi = " + (pi*100));
+        byte b = 127;
+        int i = 100;
         
-        
-        System.out.printf("price = %d\n", (pi*100));
-
-        
+        System.out.println(b+i);
+        System.out.println(10/4);
+        System.out.println(10.0/4);
+        System.out.println((char)0x12340061);
+        System.out.println((int)2.9 + (int)1.8);
+        System.out.println((int)(2.9+1.8));
     }
 }
