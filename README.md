@@ -1,5 +1,6 @@
 # 정원영(202530127)
 
+- [1030 강의](#10월-31일-강의)
 - [1030 강의](#10월-30일-강의)
 - [1002 강의](#10월-2일-강의)
 - [0925 강의](#9월-25일-강의)
@@ -8,6 +9,220 @@
 - [0904 강의](#9월4일-강의)
 
 <br>
+
+
+# (10월 31일 강의)
+5강 끝
+## 인터페이스 구현
+- 인터페이스의 추상 메소드를 모두 구현한 클래스 작성
+  - implements 키워드 사용
+  - 여러 개의 인터페이스 동시 구현 가능
+
+
+
+## 인터페이스 상속
+- 인터페이스 간에 상속 가능
+  - 인터페이스를 상속하여 확장된 인터페이스 작성 가능
+  - extends 키워드로 상속 선언
+
+- 인터페이스 다중상속 허용 
+
+## 인터페이스의 구성요소들 특징
+- 상수 : public만 허용, public static final 생략
+- 추상 매소드 : public abstract 생략 가능
+
+- defalut 메소드 : 
+    - 인터페이스에 코드가 작성된 메소드
+    - 인터페이스를 구현하는 클래스에 자동 상속
+    - public 접근 지정만 허용. 생략 가능
+- private 메소드 :
+    - 인터페이스 내에 메소드 코드가 작성되어야 함
+    - 인터페이스 내에 있는 다른 메소드에 의해서만 호출 가능
+- static 메소드 : public, private 모두 지정 가능. 생략하면 public
+- 인터페이스의 객체 생성 불가
+```java
+new PhonInterface(); // 오류. 인터페이스 PhoneInterface 객체 생성 불가
+```
+- 인터페이스 타입의 레퍼런스 변수 선언 가능
+```java
+PhoneInterface galaxy; // galaxy는 인터페이스에 대한 레퍼런스 변수
+```
+
+## 인터페이스의 필요성
+- 소프트웨어를 규격화된 모듈로 만듬
+- 엔터페이스가 맞는 모듈을 조립 하듯이 응용프로그램을 작성 하기 위해서
+
+### 자바의 인터페이스
+- 클래스가 구현해야 할 메소들이 있다.
+
+## 추상 클래스의 목적
+- 상속을 위한 슈퍼 클래스로 활용하는 것
+- 서브 클래스에서 추상 메소드 구현
+- 다형성 실현
+
+## 추상 클래스의 상속과 구현
+- 추상 클래스 상속
+    - 추상 클래스를 상속 받으면 추상 클래스가 됨
+    - `서브 클래스도 abstract로 선언` 해야함
+    ```java
+    abstract class A {
+      abstract public int add(int x,int y);
+    }
+    abstract class B extends A {
+      public void show() { System.out.println("B");}
+    }
+ 
+    A a = new A(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+    B b = new B(); // 컴파일 오류. 추상 클래스의 인스턴스 생성 불가
+    ```
+
+- 추상 클래스 구현
+    - 서브 클래스에 슈퍼 클래스의 추상 메소드 구현 (오버 라이딩)
+    - 추상 클래스를 구현한 서브 클래스는 추상 클래스 아님
+```java
+class C extends A {
+  public int add(int x, int y) {return x+y;}
+  public void show() {System.out.print;n("C");}
+
+  C c = new C(0);
+}
+```
+## 추상 클래스의 인스턴스 생성 불가
+- 추상 클래스는 온전한 클래스가 아니기 때문에 `인스턴스를 생성할 수 없음`
+```java
+JComponent p; // 오류 없음. 추상 클래스의 레퍼런스 선언
+p = new JComponent(); // 컴파일 오류. 추상 클래스 인스턴스 생성불가
+Shape obj = new Shape(); // 컴파일 오류. 추상 클래스 인스턴스 생성불가
+```
+
+## 추상 클래스
+- 추상 메소드(abstract method)
+  - abstract로 선언된 메소드, `메소드의 코드는 없고 원형만 선언`
+  ```java
+  abstract public String getName();
+  abstract public String fail() {return "Good Bye";}
+  ```
+- 추상 클래스(abstract class)
+  - 추상 메소드를 가지며, abstract로 선언된 클래스
+  - 추상 메소드 없이, abstract로 선언 한 클래스
+```java
+abstract class Shape {
+  public Sgape() { ... }
+  public void edit { ... }
+  
+  abstract public void draw(); // 추상 메소드
+}
+```
+```java
+// 추상 메소드 없는 추상 클래스
+abstract class JComponet {
+  String name;
+  public void load(String name) {
+    this.name = name;
+  }
+}
+```
+
+
+## 오버로딩과 오버 라이딩
+### 오버로딩
+- 선언 : 같은 클래스나 상속 관계에서 동일한 이름의 메소드 중복작성
+- 관계 : 동일한 클래스 내 혹은 상속 관계
+- 목적   : 이름이 같은 여러개의 메소드를 중복 선언하여 사용의 편리성 향상
+- 조건   : 메소드 이름은 반드시 동일함. 메소드의 인자의 개수나 인자의 타입이 달라야 성립
+- 바인딩 : 정적 바인딩. 컴파일 시에 중복된 메소드 중 호출되는 메소드 결정
+### 메소드 오버 라이딩
+- 선언 : 서브 클래스에서 슈퍼 클래스에 있는 메소드와 동일한 이름의 메소드 재작성
+- 관계   : 상속 관계
+- 목적   : 슈퍼 클래스에 구현된 메소드를 무시하고 서브 클래스에서 새로운 기능의 메소드를 재정의 하고 함
+- 조건   : 메소드의 이름, 인자의 타입, 인자의 개수. 인자의 리턴 타입 등이 모두 동일하여야 성립
+- 바인딩 : 동적 바인딩, 실행 시간에 오버라이딩된 메소드 찾아 호출
+
+## super 키워드로 슈퍼 클래스의 멤버 접근
+- 슈퍼 클래스의 멤버를 접근할 때 사용되는 레퍼런스 super.슈퍼 클래스의 멤버
+- 서브 클래스에서만 사용
+- 슈퍼 클래스의 필드 접근
+- 슈퍼 클래스의 메소드 호출시 super로 이루어지는 메소드 호출 : 정적 바인딩
+
+## 동적 바인딩
+- SuperObject(임시 키워드) 하나만 있는 응용프로그램의 경우 혹은 상속받은 경우 모두 종적 바인딩을 한다.[ 오버라이딩 메소드가 항상 호출 된다.]
+ 
+## 오버라이딩의 목적, 다형성 실현
+- 오버라이딩으로 다형성 실현
+- 하나의 인터페이스(같은 이름)에 서로 다른 구현
+- 슈퍼 클래스의 메소드를 서브 클래스에서 각각 목적에 맞게 다르게 구현
+- 사례 : Shape의 draw() 메소드를 Line, Rect, Circle에서 오버라이딩하여 다르게 구현
+
+
+
+## 서브 클래스 객체와 오버라이딩된 메소드 호출
+- 오버라이딩 한 메소드가 실행됨을 보장
+```java
+class A {
+  void f() {
+    Sytem.out.println("A의 f() 호출");
+  }
+}
+
+class B extends A {
+  void f() {
+    Sytem.out.println("B의 f() 호출");
+  }
+}
+
+```
+
+
+## 메소드 오버라이팅(method Overriding)의 개념
+- 서브 클래스에서 `슈퍼 클래스의 메소드 중복 작성`
+- 슈퍼 클래스이 메소드 무력화. 항상 서브 클래스에 오버라이딩한 메소드가 실행 되도록 보장됨
+- `메소드 무시하기`로 번역되기도 함
+- 오버라이딩 조건
+    - 슈퍼 클래스 메소드의 원형(메소드 이름, 인자 타입 및 개수. 리턴 타입) 동일하게 작성
+## instanceof 연산자 사용
+- 레퍼런스가 가리키는 객체의 타입 식별 : 연산의 결과는 true/false의 불린 값으로 반환
+```java
+Person p = new Professor();
+if(p instanceof Person) // true
+if(p instanceof Student) // false, Student를 상속받지 않기 때문
+if(p instanceof Researcher) // true
+if(p instanceof Professor) // true
+```
+
+## 업캐스팅 레퍼런스로 객체 구별
+- 업캐스팅 된 레퍼런스로는 객체의 실제 타입을 구분하기 어려움
+- 슈퍼 클래스는 `여러 서브 클래스에 상속` 되개 떄문
+
+- p가 가르키는 객체가 어떤건지 잘 알수가 없다.
+```java
+Person p = new Person();
+Person p = new Student();
+PErson p = new Pfofessor();
+
+```
+
+
+## 다운 캐스팅
+- 슈퍼 클래스 레퍼런스를 서브 클래스 레퍼런스에 `업캐스팅 된 것을 다시 원래대로 되돌리는 것`
+- 반드시 명시적 타입 변환 지정
+```java
+class Person { }
+
+class student extends Person { };
+
+Person p = new Student("이재문"); // 업 캐스팅
+Student s = (Student)p; // 다운 캐스팅
+
+```
+
+
+- 실제로는 여러 자식 클래스를 하나의 부모 타입으로 다루기 위해 사용
+```java
+Person[] people = new Person[3];
+people[0] = new Student("홍길동");  
+people[1] = new Student("김영희");
+people[2] = new Person("이순신");
+```
 
 # (10월 30일 강의)
 
