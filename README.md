@@ -12,6 +12,20 @@
 <br>
 
 # (11월27일 강의)
+## MouseEvent 객체 활용
+마우스 포인터,컴포넌트 내 상대 위치: ``` int getX() int getY()```
+
+## Mouse 이벤트와 MouseListener, MouseMotionListener
+  - mouseClicked() : 마우스가 눌러진 위치에서 떼어질 때 호출
+  - mouseReleased() : 마우스가 눌러진 위치에서 그대로 항상 호출
+  - mouseDrageed() : 마우스가 드래그 되는 동안 계속 호출
+### 메소드 호출 순서
+mousepressed() -> mouseRelease() -> mouseClicked()
+
+
+## 난수 함수
+난수 함수로 나온 값은 1보다ㄴ 작은 값
+
 ## 가상 키와 입력된 키 판별
 - key Event 객체
   - 입력된 키 정보를 가진 이벤트 객체
