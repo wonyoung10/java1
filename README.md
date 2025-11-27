@@ -1,4 +1,5 @@
 # 정원영(202530127)
+- [1120 강의](#11월20일-강의)
 - [1106 강의](#11월06일-강의)
 - [1031 강의](#10월-31일-강의)
 - [1030 강의](#10월-30일-강의)
@@ -10,7 +11,372 @@
 
 <br>
 
+# (11월27일 강의)
+## 가상 키와 입력된 키 판별
+- key Event 객체
+  - 입력된 키 정보를 가진 이벤트 객체
+  - KeyEvent 객체의 메소드로 입력된 키 판별
+- KeyEvent 객체의 메소드로 입력된 키 판별
+
+
+
+## 유니코드(unicode) 키
+- 유니코드 키의 특징
+  1. 국제 산업 표준
+  2. 전세계의 문자를 컴퓨터에서 일관되게 표현하기 위한 코드 체계
+  3. 문자들에 대해서만 키 코드 값 정의 : A~Z ,a~z 0~9, ! @ & 등
+- 문자가 아닌 키 일 경우 플랫폼에 따라 다르다.
+- int keyEvent.getKeyCode()
+  - 유니코드 키 포함
+  - 모든 키에 대한 정수형 키 코드 리턴
+  - 가상키 값과 비교
+  가상 키 값은 KeyEvent 클래스에 상수로 선언
+
+## keyListener
+  - 응용프로그램에서 KeyListener를 상속받아 키 리스너 구현
+  - KeyListener의 3개의 메소드
+    1. 키를 누르는 순간
+    2. 누른 키를 떼는 순간
+    3. 누른 키를 떼는 순간(Unicode키 경우) 
+
+
+## Key 이벤트와 포커스
+- 키 입력시, 다음 key 이벤트 발생
+  - 키를 누르는 순간
+  - 누른 키를 떼는 순간
+  - 누른 키를 떼는 순간(Unicode키 경우)
+- 키 이벤트를 받을 수 있는 조건
+  - 모든 컴포넌트
+  - 현재 포커스(focus)를 가진 컴포넌트가 `키 이벤트 독점`
+- 포커스(focus)
+  - 키 이벤트를 독점 하는 권한 : 컴포넌트, 응용프로그램
+  - 자바 플랫폼 마다 설정 방법 다를수 있음
+  - 컴포넌트에 포커스 설정 방법
+  ```java
+  component.setFocusable(true);
+  component.
+  ```
+
+## 어댑터 클래스
+- 이벤트 리스너 구현에 따른 부담요소
+  - 추상 메소드를 모두 구현 해야한다.
+- 어댑터 클래스
+  - 리스너의 모든 메소드를 단순 리턴하도록 만든 클래스(JDK에서 제공해준다.)
+- 추상 메소드는 리스너X
+## 익명 클래스로 이벤트 리스너 작성
+- 익명 클래스(anonymous class) : 이름 없는 클래스
+  - (클래스 선언 + 인스턴스 생성)을 한번에 달성
+```java
+new 익명클래스의 슈퍼클래스이름(생성자인자들) {
+  익명클래스의 멤버 구현
+}
+```
+- 간단한 리스너의 경우 익명 클래스 사용 추천
+  매소드의 개수가 1,2개인 리스너에 주로 사용한다.
+
+## 이벤트 리스너 작성 방법
+[ 3가지 방법]
+- 독립 클래스로 작성
+  - 이벤트 리스너를 완전한 클래스로 작성
+  - 이벤트 리스너를 여러 곳에서 사용할 때 적합
+- 내부 클래스로 작성
+  - 클래스 안에 멤버 처럼 클래스 작성
+  - 이벤트 리스너를 특정 클래스에서만 사용할 때 쓰면 좋다.
+- 익명 클래스로 작성
+  - 클래스의 이름 없이 간단히 리스너 작성
+  - 클래스 만들 필요 없는 간단한 경우에 사용
+---
+1. 이벤트와 이벤트 리스터 선택
+  - 버튼 클릭을 처리하고자 하는 경우
+    - 이벤트 : Action 이벤트, 이벤트 리스너 : ActionListener
+2. 이벤트 리스너 클래스 작성 : ActionListener 인터페이스 구현
+```java
+class MyActionListener implements ActionListener {
+  public void actionPerformed(ActionEvent e) {
+    JButton b = (Jbutton)e.getSoure();
+    if(b.getText().equals("Action")) {
+      b.setText("액션");
+    else b.setText("Action");
+    }
+  }
+}
+```
+3. 이벤트 리스트 등록
+- 이벤트를 받아 처리하고자 하는 컴포넌트에 이벤트 리스너 등록
+- component.addXXXListener(listener)
+  - xxx : 이벤트 명, listener : 이벤트 리스너 객체
+```java
+MyActionListener listener = new MyActionListener();
+btn.addActionListener(listener);
+```
+
+# (11월20일 강의)
+
+## 이벤트 객체
+### 이벤트 객체
+- 발생한 이벤트에 관한 `정보를 가진 객체`
+- 이벤트 리스너에 전달됨 : 이벤트 리스너 코드가 발생한 이벤트에 대한 `상황을 파악`할 수 있게 함
+### 이벤트 객체가 포함하는 정보
+- 이벤트 종류와 이벤트소스
+- 이벤트가 발생한 화면촺표 및 컴포넌트 내 좌표
+- 이벤트가 발생한 버튼이나 메뉴 아이템의 문자열
+- 클릭된 마우스 버튼 번호 및 마우스의 클릭 횟수
+- 키의 코드 값과 문자 값
+- 체크박스. 라이오 버튼 등과 같은 컴포넌트에 이벤트가 발생하였다면 체크 상태
+
+### 이벤트 소스를 알아내는 메소드 : Obaject getSourece()
+- 발생한 이벤트의 소스 컴포넌트 리턴
+- Object 타입으로 리턴하므로 캐스팅하여 사용
+- 모든 이벤트 객체에 대해 적용
+
+## 자바 스윙 프로그램에서 이벤트 처리 과정
+1. 이벤트 발생 
+2. 이벤트 객체 생성
+3. 응용프로그램에 작성된 이벤트 작성
+4. 이벤트 리스너
+
+## 이벤트 기반 프로그래밍
+- 이벤트의 발생에 의해 `프로그램 흐름이 결정`되는 방식
+  - 이벤트가 발생하면 이벤트를 처리하는 루틴(`이벤트 리스너`) 실행
+  - 실행될 코드는 이벤트의 발생에 의해 전적으로 결정
+- 반대되는 개념 : 배치 실행(batch porgramming)
+  - 프로그램의 `개발자가 프로그램의 흐름을 결정`하는 방식
+### 이벤트 종류
+- 사용자의 입력 : 마우스 드래그, 마우스 클릭, 키보드 누름 등
+- 센서로부터의 입력, 네트워크로부터 데이터 송수신
+- 다른 응용프로그램이나 다른 스레드로부터의 메시지
+
+### 이벤트 기반 응용 프로그램
+- 각 이벤트마다 처리하는 리스터 코드 보유
+
+### GUI 응용프로그램은 이벤트 기반 프로그래밍으로 작성됨
+- GUT 라이브러리 종류 : c++ 의 MFC, C# GUI, Visual Basic, X window, Android 등
+- 자바의 AWT와 Swing
+
+
+## 컴포넌트의 절대 위치와 크기 설정
+- 배치 관리자가 없는 컨테이너에 컴포넌트를 삽입 할 때
+  - 절대 크기와 위치 설정
+  - 서로 겹칠수 있다.
+
+- 컴포넌트의 크기와 위치 설정 매소드
+```java
+void setSize(int width, int height) // 버튼 크기를 100 * 40dmfh wlwjd
+void setLocation(int x ,int y) // 버튼 위치를 (50,50)으로 지정
+void setBounds(int x,int y,int width, int height) // 패널 내 (50,50)에 100 * 40 크기의 버튼 출력
+
+```
+
+
+## 배치 관리자가 없는 컨테이너
+- 필요한 경우
+ - 응용 프로그램에서 직접 컴포넌트의 크기와 위치를 결정하고자 하는경우
+    1. 컴포넌트의 크기나 위치를 개발자 임의로 결정하고자 하는 경우
+    2. 게임 프로그램과 같이 시간이나 마우스/키보드의 입력에 따라 컴포넌트들의 위치와 크기가 수시로 변하는 경우
+    3. 
+## GridLayout 생성자
+- 생성자
+  - GridLayout()
+  - GridLayout(int rows, int cols)
+  - GridLayout(int rows,int cols,int hGap,int vGap)
+    - rows :
+    - 
+
+## BorderLayout 생성자와 add() 메소드
+- 생성자
+  - BorderLayout()
+  - BorderLayout(int hGap, int vGap)
+    - hGap : 좌우 두 컴포넌트 사이의 수평 간격, 픽셀 단위 (디폴트 : 0)
+    - vGap : 상하 두 컴포넌트 사이의 수직 간격, 픽셀 단위 (디폴트 : 0)
+
+
+## BorderLayout 배치관리자
+- 배치 방법
+  - 컨테이너 공간을 5 구역으로 분할, 배치 : 동, 서, 남, 북, 중앙
+
+- 배치 방법
+  - add(Component comp,int index)
+
+## FlowLayout의 생성자
+- 생성자
+```java
+FlowLayout()
+FlowLayout(int align, int hGap,int vGap);
+```
+##FlowLayout 배치 관리자
+- 배치 방법
+  - 컴포넌트를 컨테이너 내에 왼쪽에서 오른쪽으로 배치
+  - 다시 위에서 아래로 
+
+## 컨테이너에 새로운 배치 관리자 설정
+- 컨테이너에 `새로운 배치관리자 설정`
+  - setLayout(LayoutManager lm) 메소드 호출 : lm을 새로운 배치 관리자로 설정
+
+### 사례
+JPanel 컨테이너에 BorderLayout 배치 관리자를 설정하는 예
+```java
+JPanel p = new JPanel();
+p.setLayout(new BorderLayout());
+```
+컨텐트팬의 배치관리자를 FlowLayout 배치관리자로 설정
+```java
+Container c = frame.getConentPane();
+c.setLayout(new FlowLayout());
+```
+### 오류 !
+```java
+c.setLayout(FLowLayout);
+```
+
+## 컨테이너와 디폴트 배치관리자
+- 컨테이너의 디폴트 배치관리자 : 컨테이너 생성시 자동으로 생성되는 배치 관리자
+
+
+## 배치 관리자 대표 유형 4가지
+- Flowlayout 배치 관리자
+  - 컴포넌트가 삽입되는 순서대로 왼쪽에서 오른쪽으로 배치
+  - 배치할 공간이 없으면 아래로 내려와서 반복한다.
+- BorderLayout 배치 관리자
+  - 컨테이너의 공간을 동, 서, 남, 북, 중앙의 5개 영역으로 나눔
+  - 5개 영역 중 응용프로그램에서 지정한 영역에 컴포넌트 배치
+- GridLayout 배치 관리자
+
+- CardLayout 배치 관리자
+
+
+
+## 컨테이너와 배치, 배치관리자 개념
+- 컨테이너의 배치 관리자
+  - 컨테이너마다 하나의 배치관리자 존재
+  - 컨테이너에 부착되는 컴포넌트의 위치와 크기 결정
+  - 컨테이너의 크기가 변경되면, 컴포넌트의 위치와 크기 재설정
+
+## Swing 응용프로그램의 종료
+- 응용 프로그램 내에서 스스로 종료하는 방법
+  - 언제 어디서나 무조건 종료 ```System.exit(0);
+### x를 눌러서 끄면?
+- 백그라운드에서 돌아가고 있다.
+## JDK5.1 이후 스타일
+다만 배경색, 투명도, 보더 등은 자동으로 위임되지 않기 때문에 getContentPane().을 사용해야합니다
+
+## FlowLayout의 배치 관리자
+- 순서대로 부착
+
+
+# (11월 13일 강의)
+
+## Swing 프레임
+- 스윙 프레임 : 모든 스윙 컴포넌트를 담는 최상위 컨테이너
+
+- 스윙 프레임(JFrame) 기본 구성
+  - 프레임 : 스윙 프로그램의 기본 틀
+  - 메뉴바 : 메뉴들이 부착되는 공간
+## 컨테이너와 컴포넌트
+### 컨테이너
+- 다른 컴포넌트를 포합할 수 있는 GUI 컴포넌트 : java.awt.Container 상속
+
+### 컴포넌트
+- 컨테이너에 포함되어야 화면에 출력 가능
+- 다른 컴포넌트를 포함할 수 없는 순수 컴포넌트
+- 모든 GUI 컴포넌트가 상속받는 클래스 : java.awt.Component
+- 스윙 컴포넌트가 상속받는 클래스 : javax.swing.Jcomponent
+
+### 최상위 컴포넌트
+- 다른 컨테이너에 포함되지 않고도 화면에 출력 되며, 독립적으로 존재 가능한 컨테이너
+
+
+## 자바의 GUI
+- [Swing 패키지]
+- AWT 기술을 기반
+- 모든 AWT 기능 +추가된 풍부하고 화려한 고급 컴포넌트
+- 순수 자바 언어로 구현
+- AWT 컴포넌트 이름 앞에 J자를 덧 붙임
+- 운영 체제 부담 줄려줌
+
+## 자바의 GUL(Graphical User Interface)
+- GUI : 사용자가 편리하게 입출력 할 수 있도록 그래픽으로 화면을 구성하고, 마우스나 키보드로 입력 받을 수 있도록 지원하는 사용자 인터페이스
+- 자바 언어에서 GUT 응용프로그램 작성 : `AWT`와 Swing 패키지에 강력한 GUT 컴포넌트 제공.
+
+### AWT 패키지
+- 최근에는 거의 사용 x
+- 운영 체제가 직접 그려서 속도가 빠르다.
+
+
+## String 활용
+- 스트링 비교, equals() 와 compareTo() -> 스트링 비교에 == 연산자 절대 사용금지
+- equals() : String이 같으면 true, 아니면 false 리턴
+```java
+String java = "Java";
+if(java.equals("java")) // ture
+```
+## int compareTo(String anotherString)
+- 문자열이 같으면 0 리턴
+- anotherString 보다 먼저 나오면 음수 리턴
+- anotherString 보다 나중에 나오면 양수 리턴
+```java
+String java ="Java";
+String cppp = "c++";
+int res= java.compareTo(cpp);
+if(res == 0) System.out.println("the same");
+
+```
+## 스트링 리터널과 new String()
+- 스트링 리터럴
+  - 자바 가상 기께 내부에서 리터럴 테이블에 저장되고 관리됨
+  - 응용프로그램에서 공유됨
+  - 스트링 리터럴 사례) `String s = "Hello";`
+- new String()으로 생성된 스트링
+  - 스트링 객체는 힙에 생성
+  - 스트링은 공유되지 않음
+
+
+## String의 생성과 특징
+- String 클래스는 문자열을 나타냄
+- 스트링 리터럴(문자열 리터럴)은 String 객체로 처리됨
+- 스트링 객체의 생성 사례
+
+
+## 박싱과 언방식
+- 박싱   : 기본 타입의 값을 Wrapper 객체로 변환하는 것
+- 언박식 : Wrapper 객체에 들어 있는 기본 타입의 값을 뺴내는 것. 박싱의 반대
+- 자동 박싱과 자동 언박싱 : 1.5부터 자동
+```java
+Integer ten = 10;
+int n = ten;
+```
+
+## warpper 활용
+- wrapper 객체로 부터 기본 타입 값 알아내기
+- 문자열을 기본 데이터 타입으로 변환
+- 기본 타입을 문자열로 변환
+
+## warpper 객체 생성
+- 기본 타입의 값으로 warpper 객체 생성
+``` java
+Integer i = Integer.valueOf(10);
+Character c = Character.valueOf('c');
+Double f = Double.valueOf(3.14);
+Boolean b = Boolean.valueOf(true);
+```
+- 문자열로 warpper 객체 생성
+``` java
+Integer i = Integer.valueOf("10");
+Double f = Double.valueOf("3.14");
+Boolean b = Boolean.valueOf("false");
+```
+- Float 객체는 Double 타입의 값으로 생성가능
+``` Java
+Float f = Float.valueOf((double) 3.14);
+```
+
+
+## 객체 비교(==) 와 equals() 메소드
+- == 연산자 : 객체 레퍼런스 비교
+- boolean equals(object obj)
+  - 두 객체의 내용물 비교
+  - 객체의 내용물을 비교하기 위해 클래스의 멤버로 작성
 # (11월06일 강의)
+## 테크페어 사진
 ![my_image](my_pair_image.jpg)
 ## 객체속성
 - hashCode()
@@ -938,3 +1304,99 @@ Vs Code에서 터미널을 열려면 `Ctrl` + `~`
 
 # 그림 삽입
 ![git 로고](./git.png);
+```
+java1
+├─ java-1
+│  ├─ bin
+│  │  ├─ App.class
+│  │  └─ Hello.class
+│  ├─ lib
+│  └─ src
+│     ├─ App.java
+│     ├─ D0925
+│     │  ├─ D0925.java
+│     │  ├─ D0925_DoWhile.java
+│     │  ├─ D0925_for.java
+│     │  ├─ D0925_if.java
+│     │  ├─ D0925_switch.java
+│     │  └─ D0925_while.java
+│     ├─ D1002
+│     │  ├─ ArrayExample.java
+│     │  ├─ ArrayExample2.java
+│     │  ├─ BreakExample.java
+│     │  ├─ ForEachExample.java
+│     │  ├─ InputException.java
+│     │  └─ ReturnArray.java
+│     ├─ D1030
+│     │  ├─ ClassInheritance.java
+│     │  ├─ Ex51ColorPointEx.java
+│     │  └─ Ex52ColorPointEx.java
+│     ├─ D1031
+│     │  ├─ Ex53Instaneof.java
+│     │  ├─ Ex54.java
+│     │  └─ Ex55.java
+│     ├─ D1106
+│     │  ├─ Hello.java
+│     │  └─ ObjectPro.java
+│     ├─ D1113
+│     │  └─ EX63Equals.java
+│     ├─ D1120
+│     │  ├─ Ex82ContentPaneEx.java
+│     │  ├─ Ex85.java
+│     │  └─ Ex86.java
+│     ├─ Foo.java
+│     ├─ Hello.class
+│     ├─ Hello.java
+│     └─ UseSanner.java
+├─ my_pair_image.jpg
+└─ README.md
+
+```
+```
+java1
+├─ java-1
+│  ├─ bin
+│  │  ├─ App.class
+│  │  └─ Hello.class
+│  ├─ lib
+│  └─ src
+│     ├─ App.java
+│     ├─ D0925
+│     │  ├─ D0925.java
+│     │  ├─ D0925_DoWhile.java
+│     │  ├─ D0925_for.java
+│     │  ├─ D0925_if.java
+│     │  ├─ D0925_switch.java
+│     │  └─ D0925_while.java
+│     ├─ D1002
+│     │  ├─ ArrayExample.java
+│     │  ├─ ArrayExample2.java
+│     │  ├─ BreakExample.java
+│     │  ├─ ForEachExample.java
+│     │  ├─ InputException.java
+│     │  └─ ReturnArray.java
+│     ├─ D1030
+│     │  ├─ ClassInheritance.java
+│     │  ├─ Ex51ColorPointEx.java
+│     │  └─ Ex52ColorPointEx.java
+│     ├─ D1031
+│     │  ├─ Ex53Instaneof.java
+│     │  ├─ Ex54.java
+│     │  └─ Ex55.java
+│     ├─ D1106
+│     │  ├─ Hello.java
+│     │  └─ ObjectPro.java
+│     ├─ D1113
+│     │  └─ EX63Equals.java
+│     ├─ D1120
+│     │  ├─ Ex82ContentPaneEx.java
+│     │  ├─ Ex85.java
+│     │  └─ Ex86.java
+│     ├─ Foo.java
+│     ├─ Hello.class
+│     ├─ Hello.java
+│     └─ UseSanner.java
+├─ my_pair_image.jpg
+└─ README.md
+
+```
